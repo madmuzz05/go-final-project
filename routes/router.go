@@ -83,7 +83,6 @@ func SetupRouter() *gin.Engine {
 
 func InitRouter(gormDB *postgres.GormDB) *gin.Engine {
 	// docs.SwaggerInfo.BasePath = "/api/v1"
-	// middleware.InitAuthorizationMiddleware(gormDB).Authorization()
 
 	router := SetupRouter()
 	api := router.Group("/api/v1")
@@ -92,7 +91,6 @@ func InitRouter(gormDB *postgres.GormDB) *gin.Engine {
 	InitSosmedRouter(api, gormDB).Routes()
 	InitPhotoRouter(api, gormDB).Routes()
 	InitCommentRouter(api, gormDB).Routes()
-	// InitOrderRouter(api, gormDB).Routes()
 
 	return router
 }

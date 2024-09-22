@@ -5,7 +5,6 @@ import (
 
 	"github.com/madmuzz05/go-final-project/internal/config"
 	entityComment "github.com/madmuzz05/go-final-project/service/comment/entity"
-	orderEntity "github.com/madmuzz05/go-final-project/service/order/entity"
 	entityPhoto "github.com/madmuzz05/go-final-project/service/photo/entity"
 	entitySosmed "github.com/madmuzz05/go-final-project/service/sosial_media/entity"
 	userEntity "github.com/madmuzz05/go-final-project/service/user/entity"
@@ -30,7 +29,7 @@ func LoadGorm(cfg *config.Config) (*GormDB, error) {
 	if err != nil {
 		return nil, err
 	}
-	db.Debug().AutoMigrate(orderEntity.Order{}, orderEntity.Item{}, userEntity.User{}, entitySosmed.SosialMedia{}, entityPhoto.Photo{}, entityComment.Comment{})
+	db.Debug().AutoMigrate(userEntity.User{}, entitySosmed.SosialMedia{}, entityPhoto.Photo{}, entityComment.Comment{})
 	log.Info().Msg("connected successfully to the database with gorm!")
 
 	return &GormDB{
