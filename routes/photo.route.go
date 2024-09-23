@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/madmuzz05/go-final-project/internal/database/gorm/postgres"
 	"github.com/madmuzz05/go-final-project/pkg/middleware"
+	repositoryComment "github.com/madmuzz05/go-final-project/service/comment/repository"
 	handlerPhoto "github.com/madmuzz05/go-final-project/service/photo/handler"
 	repositoryPhoto "github.com/madmuzz05/go-final-project/service/photo/repository"
 	usecasePhoto "github.com/madmuzz05/go-final-project/service/photo/usecase"
@@ -25,6 +26,9 @@ func InitPhotoRouter(
 				gormDB,
 			),
 			repositoryUser.InitUserRepository(
+				gormDB,
+			),
+			repositoryComment.InitCommentRepository(
 				gormDB,
 			),
 			gormDB,

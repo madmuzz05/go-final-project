@@ -9,10 +9,10 @@ import (
 	auth "github.com/madmuzz05/go-final-project/pkg/helper/jwt"
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	"github.com/madmuzz05/go-final-project/service/user/dto"
-	"github.com/madmuzz05/go-final-project/service/user/entity"
+	entityUser "github.com/madmuzz05/go-final-project/service/user/entity"
 )
 
-func (u *UserUsecase) Register(ctx context.Context, req dto.UserRequest) (res entity.User, err sysresponse.IError) {
+func (u *UserUsecase) Register(ctx context.Context, req dto.UserRequest) (res entityUser.User, err sysresponse.IError) {
 	u.GormDB.BeginTransaction()
 	defer func() {
 		if r := recover(); r != nil {
@@ -88,7 +88,7 @@ func (u *UserUsecase) Login(ctx context.Context, req dto.LoginRequest) (res dto.
 
 }
 
-func (u *UserUsecase) GetDataUser(ctx context.Context, req dto.UserRequest) (res entity.User, err sysresponse.IError) {
+func (u *UserUsecase) GetDataUser(ctx context.Context, req dto.UserRequest) (res entityUser.User, err sysresponse.IError) {
 	u.GormDB.BeginTransaction()
 	defer func() {
 		if r := recover(); r != nil {

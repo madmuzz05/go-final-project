@@ -1,0 +1,822 @@
+definitions:
+  dto.LoginRequest:
+    properties:
+      password:
+        minLength: 6
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  dto.LoginResponse:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      id:
+        type: integer
+      token:
+        properties:
+          expired_at:
+            type: string
+          token:
+            type: string
+        type: object
+      username:
+        type: string
+    type: object
+  dto.UserRequest:
+    properties:
+      age:
+        minimum: 8
+        type: integer
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        minLength: 6
+        type: string
+      username:
+        type: string
+    required:
+    - age
+    - email
+    - password
+    - username
+    type: object
+  dtoComment.CommentPhotoResponse:
+    properties:
+      message:
+        type: string
+      photo_id:
+        type: integer
+      user_id:
+        type: integer
+      username:
+        type: string
+    type: object
+  dtoComment.CommentResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      photo:
+        $ref: '#/definitions/entityPhoto.Photo'
+      photo_id:
+        type: integer
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/entityUser.User'
+      user_id:
+        type: integer
+    type: object
+  dtoPhoto.PhotoResponse:
+    properties:
+      caption:
+        type: string
+      comments:
+        items:
+          $ref: '#/definitions/dtoComment.CommentPhotoResponse'
+        type: array
+      created_at:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/entityUser.User'
+      user_id:
+        type: integer
+    type: object
+  dtoSosmed.SosmedResposnse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      sosial_media_url:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/entityUser.User'
+      user_id:
+        type: integer
+    type: object
+  entityComment.Comment:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      photo_id:
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - message
+    - photo_id
+    - user_id
+    type: object
+  entityPhoto.Photo:
+    properties:
+      caption:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - caption
+    - photo_url
+    - title
+    - user_id
+    type: object
+  entitySosmed.SosialMedia:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      sosial_media_url:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - name
+    - sosial_media_url
+    - user_id
+    type: object
+  entityUser.User:
+    properties:
+      age:
+        minimum: 8
+        type: integer
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        minLength: 6
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    required:
+    - age
+    - email
+    - password
+    - username
+    type: object
+  sysresponse.Success:
+    properties:
+      data: {}
+      message:
+        type: string
+      status:
+        type: integer
+      success:
+        type: boolean
+    type: object
+info:
+  contact: {}
+  description: This is a api documentation for MyGram API Final Project goang Hacktive
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: MyGram API
+  version: "1.0"
+paths:
+  /comment/createComment:
+    post:
+      consumes:
+      - application/json
+      description: Create comment
+      parameters:
+      - description: body request
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entityComment.Comment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtoComment.CommentResponse'
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Create comment
+      tags:
+      - Comment
+  /comment/deleteComment/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete comment
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  type: object
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: delete comment
+      tags:
+      - Comment
+  /comment/getAll:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all comment
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dtoComment.CommentResponse'
+                  type: array
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: get all comment
+      tags:
+      - Comment
+  /comment/getOne/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a single comment by its ID
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtoComment.CommentResponse'
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Get a comment by ID
+      tags:
+      - Comment
+  /comment/updateComment/{id}:
+    put:
+      consumes:
+      - application/json
+      description: update comment
+      parameters:
+      - description: body request
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entityComment.Comment'
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtoComment.CommentResponse'
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: update comment
+      tags:
+      - Comment
+  /photo/createPhoto:
+    post:
+      consumes:
+      - application/json
+      description: Create photo
+      parameters:
+      - description: body request
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entityPhoto.Photo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtoPhoto.PhotoResponse'
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Create photo
+      tags:
+      - Photo
+  /photo/deletePhoto/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete photo
+      parameters:
+      - description: body request
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entityPhoto.Photo'
+      - description: Photo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  type: object
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: delete photo
+      tags:
+      - Photo
+  /photo/getAll:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all photo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dtoPhoto.PhotoResponse'
+                  type: array
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: get all photo
+      tags:
+      - Photo
+  /photo/getOne/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a single photo by its ID
+      parameters:
+      - description: Photo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtoPhoto.PhotoResponse'
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Get a photo by ID
+      tags:
+      - Photo
+  /photo/updatePhoto/{id}:
+    post:
+      consumes:
+      - application/json
+      description: update photo
+      parameters:
+      - description: body request
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entityPhoto.Photo'
+      - description: Photo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtoPhoto.PhotoResponse'
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: update photo
+      tags:
+      - Photo
+  /sosmed/createSosialMedia:
+    post:
+      consumes:
+      - application/json
+      description: Create sosmed
+      parameters:
+      - description: body request
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entitySosmed.SosialMedia'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtoSosmed.SosmedResposnse'
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Create sosmed
+      tags:
+      - Sosmed
+  /sosmed/getAll:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all sosmed
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dtoSosmed.SosmedResposnse'
+                  type: array
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: get all sosmed
+      tags:
+      - Sosmed
+  /sosmed/getOne/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a single sosmed by its ID
+      parameters:
+      - description: Sosmed ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtoSosmed.SosmedResposnse'
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Get a sosmed by ID
+      tags:
+      - Sosmed
+  /sosmed/updateSosialMedia/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update sosmed
+      parameters:
+      - description: Sosmed ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: body request
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/entitySosmed.SosialMedia'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dtoSosmed.SosmedResposnse'
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Update sosmed
+      tags:
+      - Sosmed
+  /sosmen/deleteSosialMedia/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete sosmed
+      parameters:
+      - description: Sosmed ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  type: object
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: delete sosmed
+      tags:
+      - Sosmed
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: body request
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.LoginResponse'
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      summary: Login User
+      tags:
+      - User
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      parameters:
+      - description: body request
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/entityUser.User'
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      summary: Register User
+      tags:
+      - User
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -12,13 +12,28 @@ import (
 	"github.com/madmuzz05/go-final-project/internal/config"
 	"github.com/madmuzz05/go-final-project/internal/database/gorm/postgres"
 	"github.com/madmuzz05/go-final-project/pkg/middleware"
+	"github.com/madmuzz05/go-final-project/service/docs"
 	"github.com/rs/zerolog/log"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Server struct {
 	HttpServer *http.Server
 }
 
+// @title MyGram API
+// @version 1.0
+// @description This is a api documentation for MyGram API Final Project goang Hacktive
+// @termsOfService http://swagger.io/terms/
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
+// @host localhost:8081
+// @BasePath /api/v1
 func Run(ctx context.Context) error {
 	gormDB, err := postgres.LoadGorm(&config.AppConfig)
 	if err != nil {
@@ -85,7 +100,16 @@ func InitRouter(gormDB *postgres.GormDB) *gin.Engine {
 	// docs.SwaggerInfo.BasePath = "/api/v1"
 
 	router := SetupRouter()
+
 	api := router.Group("/api/v1")
+	docs.SwaggerInfo.BasePath = "/api/v1"
+	api.GET("/swagger/*any", ginSwagger.WrapHandler(
+		swaggerfiles.Handler,
+		ginSwagger.URL("doc.json"),
+		ginSwagger.DocExpansion("none"),
+		ginSwagger.DeepLinking(true),
+		ginSwagger.PersistAuthorization(true),
+	))
 	InitUserRouter(api, gormDB).Routes()
 	api.Use(middleware.Authentication())
 	InitSosmedRouter(api, gormDB).Routes()

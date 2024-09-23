@@ -1,5 +1,7 @@
+// dto package
 package dto
 
+// UserRequest schema
 type UserRequest struct {
 	Username *string `json:"username" binding:"required"`
 	Email    *string `json:"email" binding:"required,email"`
@@ -8,6 +10,7 @@ type UserRequest struct {
 	Id       int     `json:"id"`
 }
 
+// LoginRequest schema
 type LoginRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required,min=6"`

@@ -1,9 +1,11 @@
+// entityPhoto package
 package entityPhoto
 
-import global "github.com/madmuzz05/go-final-project/service/global/entity"
+import entityGlobal "github.com/madmuzz05/go-final-project/service/global/entity"
 
+// Photo schema
 type Photo struct {
-	global.GormModel
+	entityGlobal.GormModel
 	Title    string `gorm:"not null" json:"title" binding:"required"`
 	Caption  string `gorm:"not null" json:"caption" binding:"required"`
 	PhotoUrl string `gorm:"not null" json:"photo_url" binding:"required"`

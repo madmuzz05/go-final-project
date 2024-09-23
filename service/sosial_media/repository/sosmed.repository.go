@@ -16,7 +16,7 @@ func (r SosmedRepository) GetAll(ctx context.Context) (res []entitySosmed.Sosial
 		err = sysresponse.GetErrorMessage(sosmed.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if sosmed.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Social Media Not Found.")
 		return
 	}
 
@@ -31,7 +31,7 @@ func (r SosmedRepository) GetOne(ctx context.Context, id int) (res entitySosmed.
 		err = sysresponse.GetErrorMessage(sosmed.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if sosmed.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Social Media Not Found.")
 		return
 	}
 
@@ -47,7 +47,7 @@ func (r SosmedRepository) CreateSocialMedia(ctx context.Context, req entitySosme
 		err = sysresponse.GetErrorMessage(sosmed.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if sosmed.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Social Media Not Found.")
 		return
 	}
 
@@ -63,7 +63,7 @@ func (r SosmedRepository) UpdateSocialMedia(ctx context.Context, req entitySosme
 		err = sysresponse.GetErrorMessage(sosmed.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if sosmed.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Social Media Not Found.")
 		return
 	}
 

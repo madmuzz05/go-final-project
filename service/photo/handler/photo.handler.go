@@ -10,6 +10,16 @@ import (
 	entityPhoto "github.com/madmuzz05/go-final-project/service/photo/entity"
 )
 
+// GetOne godoc
+// @Summary Get a photo by ID
+// @Description Retrieve a single photo by its ID
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Param id path int true "Photo ID"
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoPhoto.PhotoResponse}
+// @Security BearerAuth
+// @Router /photo/getOne/{id} [get]
 func (h PhotoHandler) GetOne(ctx *gin.Context) {
 	// req := dto.GenerateQrCodeRequest{}
 	id, paramErr := strconv.Atoi(ctx.Param("id"))
@@ -30,6 +40,15 @@ func (h PhotoHandler) GetOne(ctx *gin.Context) {
 	sysresponse.GetResponseJson(ctx, http.StatusOK, "Found Data.", res)
 }
 
+// GetAll godoc
+// @Summary get all photo
+// @Description Retrieve all photo
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=[]dtoPhoto.PhotoResponse}
+// @Security BearerAuth
+// @Router /photo/getAll [get]
 func (h PhotoHandler) GetAll(ctx *gin.Context) {
 	res, err := h.PhotoUsecase.GetAll(ctx)
 	if err != nil {
@@ -40,6 +59,16 @@ func (h PhotoHandler) GetAll(ctx *gin.Context) {
 	sysresponse.GetResponseJson(ctx, http.StatusOK, "Found Data.", res)
 }
 
+// CreatePhoto godoc
+// @Summary Create photo
+// @Description Create photo
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Param json body entityPhoto.Photo true "body request"
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoPhoto.PhotoResponse}
+// @Security BearerAuth
+// @Router /photo/createPhoto [post]
 func (h PhotoHandler) CreatePhoto(ctx *gin.Context) {
 	req := entityPhoto.Photo{}
 
@@ -57,6 +86,17 @@ func (h PhotoHandler) CreatePhoto(ctx *gin.Context) {
 	sysresponse.GetResponseJson(ctx, http.StatusCreated, "Create Data Success.", res)
 }
 
+// UpdatePhoto godoc
+// @Summary update photo
+// @Description update photo
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Param json body entityPhoto.Photo true "body request"
+// @Param id path int true "Photo ID"
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoPhoto.PhotoResponse}
+// @Security BearerAuth
+// @Router /photo/updatePhoto/{id} [post]
 func (h PhotoHandler) UpdatePhoto(ctx *gin.Context) {
 	id, paramErr := strconv.Atoi(ctx.Param("id"))
 	if paramErr != nil {
@@ -82,6 +122,17 @@ func (h PhotoHandler) UpdatePhoto(ctx *gin.Context) {
 	sysresponse.GetResponseJson(ctx, http.StatusOK, "Update Data Success.", res)
 }
 
+// DeletePhoto godoc
+// @Summary delete photo
+// @Description delete photo
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Param json body entityPhoto.Photo true "body request"
+// @Param id path int true "Photo ID"
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=nil}
+// @Security BearerAuth
+// @Router /photo/deletePhoto/{id} [delete]
 func (h PhotoHandler) DeletePhoto(ctx *gin.Context) {
 	id, paramErr := strconv.Atoi(ctx.Param("id"))
 	if paramErr != nil {

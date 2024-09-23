@@ -88,19 +88,21 @@ func (u *SosmedUsecase) CreateSocialMedia(ctx context.Context, req entitySosmed.
 		}
 		u.GormDB.CommitTransaction()
 	}()
+	var reqUser = dto.UserRequest{
+		Id: int(req.UserId),
+	}
+	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
+	if errUser != nil {
+		err = errUser
+	}
+
 	model, errModel := u.SosmedRepository.CreateSocialMedia(ctx, req)
 	if errModel != nil {
 		err = errModel
 		return
 	}
-	var reqUser = dto.UserRequest{
-		Id: int(model.UserId),
-	}
-	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	copier.Copy(&res, &model)
-	if errUser == nil {
-		res.User = &user
-	}
+	res.User = &user
 	return
 }
 func (u *SosmedUsecase) UpdateSocialMedia(ctx context.Context, req entitySosmed.SosialMedia, id int) (res dtoSosmed.SosmedResposnse, err sysresponse.IError) {

@@ -54,6 +54,7 @@ func (s *Error) GetError() error {
 	return s.Error
 }
 
+// Success schema
 type Success struct {
 	StatusCode int         `json:"status"`
 	Success    bool        `json:"success"`
@@ -61,6 +62,7 @@ type Success struct {
 	Data       interface{} `json:"data"`
 }
 
+// GetResponseJson sends a JSON response
 func GetResponseJson(ctx *gin.Context, status int, message string, data interface{}) {
 	success := false
 	if status < 400 {

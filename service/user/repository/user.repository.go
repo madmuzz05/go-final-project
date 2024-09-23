@@ -39,7 +39,7 @@ func (r UserRepository) GetDataUser(ctx context.Context, req userDto.UserRequest
 		err = sysresponse.GetErrorMessage(model.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if model.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "User Not Found.")
 		return
 	}
 	return

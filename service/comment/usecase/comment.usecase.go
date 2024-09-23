@@ -96,24 +96,30 @@ func (u *CommentUsecase) CreateComment(ctx context.Context, req entityComment.Co
 		}
 		u.GormDB.CommitTransaction()
 	}()
+
+	var reqUser = dto.UserRequest{}
+	reqUser.Id = int(req.UserId)
+
+	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
+	if errUser != nil {
+		err = errUser
+		return
+	}
+
+	photo, errPhoto := u.PhotoRepository.GetOne(ctx, int(req.PhotoId))
+	if errPhoto != nil {
+		err = errPhoto
+	}
+
 	model, errModel := u.CommentRepository.CreateComment(ctx, req)
 	if errModel != nil {
 		err = errModel
 		return
 	}
-	var reqUser = dto.UserRequest{
-		Id: int(model.UserId),
-	}
-	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	copier.Copy(&res, &model)
-	if errUser == nil {
-		res.User = &user
-	}
+	res.User = &user
+	res.Photo = &photo
 
-	photo, errPhoto := u.PhotoRepository.GetOne(ctx, int(model.PhotoId))
-	if errPhoto == nil {
-		res.Photo = &photo
-	}
 	return
 }
 func (u *CommentUsecase) UpdateComment(ctx context.Context, req entityComment.Comment, id int) (res dtoComment.CommentResponse, err sysresponse.IError) {
@@ -129,20 +135,23 @@ func (u *CommentUsecase) UpdateComment(ctx context.Context, req entityComment.Co
 		}
 		u.GormDB.CommitTransaction()
 	}()
+
 	model, errModel := u.CommentRepository.UpdateComment(ctx, req, id)
 	if errModel != nil {
 		err = errModel
 		return
 	}
-	var reqUser = dto.UserRequest{
-		Id: int(model.UserId),
-	}
-	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
+
 	copier.Copy(&res, &model)
+	var reqUser = dto.UserRequest{}
+	reqUser.Id = int(model.UserId)
+
+	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	if errUser == nil {
 		res.User = &user
 	}
-	photo, errPhoto := u.PhotoRepository.GetOne(ctx, int(model.PhotoId))
+
+	photo, errPhoto := u.PhotoRepository.GetOne(ctx, int(req.PhotoId))
 	if errPhoto == nil {
 		res.Photo = &photo
 	}
@@ -162,6 +171,7 @@ func (u *CommentUsecase) DeleteComment(ctx context.Context, id int) (err sysresp
 		}
 		u.GormDB.CommitTransaction()
 	}()
+
 	errModel := u.CommentRepository.DeleteComment(ctx, id)
 	if errModel != nil {
 		err = errModel

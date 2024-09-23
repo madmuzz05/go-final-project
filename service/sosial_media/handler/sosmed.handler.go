@@ -10,6 +10,16 @@ import (
 	entitySosmed "github.com/madmuzz05/go-final-project/service/sosial_media/entity"
 )
 
+// GetOne godoc
+// @Summary Get a sosmed by ID
+// @Description Retrieve a single sosmed by its ID
+// @Tags Sosmed
+// @Accept json
+// @Produce json
+// @Param id path int true "Sosmed ID"
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoSosmed.SosmedResposnse}
+// @Security BearerAuth
+// @Router /sosmed/getOne/{id} [get]
 func (h SosmedHandler) GetOne(ctx *gin.Context) {
 	// req := dto.GenerateQrCodeRequest{}
 	id, paramErr := strconv.Atoi(ctx.Param("id"))
@@ -30,6 +40,15 @@ func (h SosmedHandler) GetOne(ctx *gin.Context) {
 	sysresponse.GetResponseJson(ctx, http.StatusOK, "Found Data.", res)
 }
 
+// GetAll godoc
+// @Summary get all sosmed
+// @Description Retrieve all sosmed
+// @Tags Sosmed
+// @Accept json
+// @Produce json
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=[]dtoSosmed.SosmedResposnse}
+// @Security BearerAuth
+// @Router /sosmed/getAll [get]
 func (h SosmedHandler) GetAll(ctx *gin.Context) {
 	res, err := h.SosmedUsecase.GetAll(ctx)
 	if err != nil {
@@ -40,6 +59,16 @@ func (h SosmedHandler) GetAll(ctx *gin.Context) {
 	sysresponse.GetResponseJson(ctx, http.StatusOK, "Found Data.", res)
 }
 
+// CreateSosialMedia godoc
+// @Summary Create sosmed
+// @Description Create sosmed
+// @Tags Sosmed
+// @Accept json
+// @Produce json
+// @Param json body entitySosmed.SosialMedia true "body request"
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoSosmed.SosmedResposnse}
+// @Security BearerAuth
+// @Router /sosmed/createSosialMedia [post]
 func (h SosmedHandler) CreateSosialMedia(ctx *gin.Context) {
 	req := entitySosmed.SosialMedia{}
 
@@ -57,6 +86,17 @@ func (h SosmedHandler) CreateSosialMedia(ctx *gin.Context) {
 	sysresponse.GetResponseJson(ctx, http.StatusCreated, "Create Data Success.", res)
 }
 
+// UpdateSosialMedia godoc
+// @Summary Update sosmed
+// @Description Update sosmed
+// @Tags Sosmed
+// @Accept json
+// @Produce json
+// @Param id path int true "Sosmed ID"
+// @Param json body entitySosmed.SosialMedia true "body request"
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoSosmed.SosmedResposnse}
+// @Security BearerAuth
+// @Router /sosmed/updateSosialMedia/{id} [put]
 func (h SosmedHandler) UpdateSosialMedia(ctx *gin.Context) {
 	id, paramErr := strconv.Atoi(ctx.Param("id"))
 	if paramErr != nil {
@@ -82,6 +122,16 @@ func (h SosmedHandler) UpdateSosialMedia(ctx *gin.Context) {
 	sysresponse.GetResponseJson(ctx, http.StatusOK, "Update Data Success.", res)
 }
 
+// DeleteSosialMedia godoc
+// @Summary delete sosmed
+// @Description delete sosmed
+// @Tags Sosmed
+// @Accept json
+// @Produce json
+// @Param id path int true "Sosmed ID"
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=nil}
+// @Security BearerAuth
+// @Router /sosmen/deleteSosialMedia/{id} [delete]
 func (h SosmedHandler) DeleteSosialMedia(ctx *gin.Context) {
 	id, paramErr := strconv.Atoi(ctx.Param("id"))
 	if paramErr != nil {

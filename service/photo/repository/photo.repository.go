@@ -16,7 +16,7 @@ func (r PhotoRepository) GetAll(ctx context.Context) (res []entityPhoto.Photo, e
 		err = sysresponse.GetErrorMessage(model.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if model.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Photo Not Found.")
 		return
 	}
 
@@ -31,7 +31,7 @@ func (r PhotoRepository) GetOne(ctx context.Context, id int) (res entityPhoto.Ph
 		err = sysresponse.GetErrorMessage(model.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if model.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Photo Not Found.")
 		return
 	}
 
@@ -47,7 +47,7 @@ func (r PhotoRepository) CreatePhoto(ctx context.Context, req entityPhoto.Photo)
 		err = sysresponse.GetErrorMessage(model.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if model.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Photo Not Found.")
 		return
 	}
 
@@ -63,7 +63,7 @@ func (r PhotoRepository) UpdatePhoto(ctx context.Context, req entityPhoto.Photo,
 		err = sysresponse.GetErrorMessage(model.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if model.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Photo Not Found.")
 		return
 	}
 

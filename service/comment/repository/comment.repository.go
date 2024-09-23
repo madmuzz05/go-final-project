@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
+	dtoComment "github.com/madmuzz05/go-final-project/service/comment/dto"
 	entityComment "github.com/madmuzz05/go-final-project/service/comment/entity"
 )
 
@@ -16,7 +17,7 @@ func (r CommentRepository) GetAll(ctx context.Context) (res []entityComment.Comm
 		err = sysresponse.GetErrorMessage(model.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if model.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Comment Not Found.")
 		return
 	}
 
@@ -31,7 +32,33 @@ func (r CommentRepository) GetOne(ctx context.Context, id int) (res entityCommen
 		err = sysresponse.GetErrorMessage(model.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if model.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Comment Not Found.")
+		return
+	}
+
+	return
+}
+func (r CommentRepository) GetCommentByPhotoId(ctx context.Context, id int) (res []dtoComment.CommentPhotoResponse, err sysresponse.IError) {
+	db := r.gormDb.GetDB().WithContext(ctx)
+	sql := `SELECT 
+			c.*,
+			u.username 
+		FROM 
+			public.comment as c
+		LEFT JOIN
+			public.user as u
+		ON
+			u.id = c.user_id
+		where 
+			photo_id = ? 
+		ORDER BY id DESC`
+	model := db.Raw(sql, id).Scan(&res)
+
+	if model.Error != nil {
+		err = sysresponse.GetErrorMessage(model.Error, http.StatusInternalServerError, "Internal Server Error.")
+		return
+	} else if model.RowsAffected == 0 {
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Comment Not Found.")
 		return
 	}
 
@@ -47,7 +74,7 @@ func (r CommentRepository) CreateComment(ctx context.Context, req entityComment.
 		err = sysresponse.GetErrorMessage(model.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if model.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Comment Not Found.")
 		return
 	}
 
@@ -63,7 +90,7 @@ func (r CommentRepository) UpdateComment(ctx context.Context, req entityComment.
 		err = sysresponse.GetErrorMessage(model.Error, http.StatusInternalServerError, "Internal Server Error.")
 		return
 	} else if model.RowsAffected == 0 {
-		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Data Not Found.")
+		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Comment Not Found.")
 		return
 	}
 

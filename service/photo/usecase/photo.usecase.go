@@ -36,6 +36,11 @@ func (u *PhotoUsecase) GetOne(ctx context.Context, id int) (res dtoPhoto.PhotoRe
 	if errUser == nil {
 		res.User = &user
 	}
+
+	comments, errComments := u.CommentRepository.GetCommentByPhotoId(ctx, int(model.Id))
+	if errComments == nil {
+		res.Comment = &comments
+	}
 	return
 }
 
@@ -69,6 +74,10 @@ func (u *PhotoUsecase) GetAll(ctx context.Context) (res []dtoPhoto.PhotoResponse
 		if errUser == nil {
 			tempRes.User = &user
 		}
+		comments, errComments := u.CommentRepository.GetCommentByPhotoId(ctx, int(v.Id))
+		if errComments == nil {
+			tempRes.Comment = &comments
+		}
 
 		res = append(res, tempRes)
 	}
@@ -88,19 +97,23 @@ func (u *PhotoUsecase) CreatePhoto(ctx context.Context, req entityPhoto.Photo) (
 		}
 		u.GormDB.CommitTransaction()
 	}()
+	var reqUser = dto.UserRequest{}
+	reqUser.Id = int(req.UserId)
+
+	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
+	if errUser != nil {
+		err = errUser
+		return
+	}
+
 	model, errModel := u.PhotoRepository.CreatePhoto(ctx, req)
 	if errModel != nil {
 		err = errModel
 		return
 	}
-	var reqUser = dto.UserRequest{
-		Id: int(model.UserId),
-	}
-	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
+
 	copier.Copy(&res, &model)
-	if errUser == nil {
-		res.User = &user
-	}
+	res.User = &user
 	return
 }
 func (u *PhotoUsecase) UpdatePhoto(ctx context.Context, req entityPhoto.Photo, id int) (res dtoPhoto.PhotoResponse, err sysresponse.IError) {

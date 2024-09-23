@@ -10,6 +10,15 @@ import (
 	"github.com/madmuzz05/go-final-project/service/user/dto"
 )
 
+// RegisteretOne godoc
+// @Summary Register User
+// @Description Register
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param json body dto.UserRequest true "body request"
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=entityUser.User}
+// @Router /user/register [post]
 func (h UserHandler) Register(ctx *gin.Context) {
 	// req := dto.GenerateQrCodeRequest{}
 	request := dto.UserRequest{}
@@ -28,6 +37,15 @@ func (h UserHandler) Register(ctx *gin.Context) {
 	sysresponse.GetResponseJson(ctx, http.StatusCreated, "Register Success", res)
 }
 
+// Login godoc
+// @Summary Login User
+// @Description Login
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param json body dto.LoginRequest true "body request"
+// @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dto.LoginResponse}
+// @Router /user/login [post]
 func (h UserHandler) Login(ctx *gin.Context) {
 	// req := dto.GenerateQrCodeRequest{}
 	request := dto.LoginRequest{}

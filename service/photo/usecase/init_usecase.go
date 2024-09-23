@@ -5,6 +5,7 @@ import (
 
 	"github.com/madmuzz05/go-final-project/internal/database/gorm/postgres"
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
+	repositoryComment "github.com/madmuzz05/go-final-project/service/comment/repository"
 	dtoPhoto "github.com/madmuzz05/go-final-project/service/photo/dto"
 	entityPhoto "github.com/madmuzz05/go-final-project/service/photo/entity"
 	repositoryPhoto "github.com/madmuzz05/go-final-project/service/photo/repository"
@@ -12,16 +13,18 @@ import (
 )
 
 type PhotoUsecase struct {
-	PhotoRepository repositoryPhoto.IPhotoRepository
-	UserRepository  repositoryUser.IUserRepository
-	GormDB          *postgres.GormDB
+	PhotoRepository   repositoryPhoto.IPhotoRepository
+	UserRepository    repositoryUser.IUserRepository
+	CommentRepository repositoryComment.ICommentRepository
+	GormDB            *postgres.GormDB
 }
 
-func InitPhotoUsecase(photoRepository repositoryPhoto.IPhotoRepository, userRepository repositoryUser.IUserRepository, gormDb *postgres.GormDB) IPhotoUsecase {
+func InitPhotoUsecase(photoRepository repositoryPhoto.IPhotoRepository, userRepository repositoryUser.IUserRepository, commentRepository repositoryComment.ICommentRepository, gormDb *postgres.GormDB) IPhotoUsecase {
 	return &PhotoUsecase{
-		PhotoRepository: photoRepository,
-		UserRepository:  userRepository,
-		GormDB:          gormDb,
+		PhotoRepository:   photoRepository,
+		UserRepository:    userRepository,
+		CommentRepository: commentRepository,
+		GormDB:            gormDb,
 	}
 }
 

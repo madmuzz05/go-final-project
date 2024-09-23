@@ -1,3 +1,4 @@
+// dtoSosmed package
 package dtoSosmed
 
 import (
@@ -5,6 +6,7 @@ import (
 	entityUser "github.com/madmuzz05/go-final-project/service/user/entity"
 )
 
+// SosmedResposnse schema
 type SosmedResposnse struct {
 	entityGlobal.GormModel
 	Name           string           `gorm:"not null" json:"name"`
