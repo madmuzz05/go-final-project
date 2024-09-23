@@ -1,3 +1,15 @@
+# Run
+Run your API
+```sh
+go run api/main.go
+```
+To test API open Swagger
+```sh
+http://localhost:8081/api/v1/swagger/index.html#/
+```
+
+Enjoy
+
 # Setup
 copy and set up your .env based on the .env.example 
 ```bash
@@ -29,15 +41,3 @@ export PATH=$PATH:$(go env GOPATH)/bin
 ```sh
 swag init -g routes/router.go -o service/docs
 ```
-
-## Run
-Run your API
-```sh
-go run api/main.go
-```
-To test API open Swagger
-```sh
-http://localhost:8081/api/v1/swagger/index.html#/
-```
-
-Enjoy
