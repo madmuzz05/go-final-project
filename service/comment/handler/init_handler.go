@@ -1,7 +1,7 @@
 package handlerComment
 
 import (
-	usecaseComment "github.com/madmuzz05/go-final-project/service/Comment/usecase"
+	usecaseComment "github.com/madmuzz05/go-final-project/service/comment/usecase"
 )
 
 type CommentHandler struct {

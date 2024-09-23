@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/madmuzz05/go-final-project/internal/database/gorm/postgres"
 	"github.com/madmuzz05/go-final-project/pkg/middleware"
-	usecaseComment "github.com/madmuzz05/go-final-project/service/Comment/usecase"
+	usecaseComment "github.com/madmuzz05/go-final-project/service/comment/usecase"
 	handlerComment "github.com/madmuzz05/go-final-project/service/comment/handler"
 	repositoryComment "github.com/madmuzz05/go-final-project/service/comment/repository"
 	repositoryPhoto "github.com/madmuzz05/go-final-project/service/photo/repository"
