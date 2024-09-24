@@ -7,7 +7,7 @@ import (
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	dtoSosmed "github.com/madmuzz05/go-final-project/service/sosial_media/dto"
 	entitySosmed "github.com/madmuzz05/go-final-project/service/sosial_media/entity"
-	"github.com/madmuzz05/go-final-project/service/user/dto"
+	entityUser "github.com/madmuzz05/go-final-project/service/user/entity"
 )
 
 func (u *SosmedUsecase) GetOne(ctx context.Context, id int) (res dtoSosmed.SosmedResposnse, err sysresponse.IError) {
@@ -28,9 +28,8 @@ func (u *SosmedUsecase) GetOne(ctx context.Context, id int) (res dtoSosmed.Sosme
 		err = errModel
 		return
 	}
-	var reqUser = dto.UserRequest{
-		Id: int(model.UserId),
-	}
+	var reqUser = entityUser.User{}
+	reqUser.Id = model.UserId
 	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	copier.Copy(&res, &model)
 	if errUser == nil {
@@ -62,9 +61,8 @@ func (u *SosmedUsecase) GetAll(ctx context.Context) (res []dtoSosmed.SosmedRespo
 		var tempRes dtoSosmed.SosmedResposnse
 		copier.Copy(&tempRes, &v)
 
-		var reqUser = dto.UserRequest{
-			Id: int(v.UserId),
-		}
+		var reqUser = entityUser.User{}
+		reqUser.Id = v.UserId
 		user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 		if errUser == nil {
 			tempRes.User = &user
@@ -88,9 +86,8 @@ func (u *SosmedUsecase) CreateSocialMedia(ctx context.Context, req entitySosmed.
 		}
 		u.GormDB.CommitTransaction()
 	}()
-	var reqUser = dto.UserRequest{
-		Id: int(req.UserId),
-	}
+	var reqUser = entityUser.User{}
+	reqUser.Id = req.UserId
 	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	if errUser != nil {
 		err = errUser
@@ -123,9 +120,9 @@ func (u *SosmedUsecase) UpdateSocialMedia(ctx context.Context, req entitySosmed.
 		err = errModel
 		return
 	}
-	var reqUser = dto.UserRequest{
-		Id: int(model.UserId),
-	}
+	var reqUser = entityUser.User{}
+	reqUser.Id = model.UserId
+
 	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	copier.Copy(&res, &model)
 	if errUser == nil {

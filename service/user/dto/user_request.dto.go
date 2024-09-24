@@ -7,7 +7,6 @@ type UserRequest struct {
 	Email    *string `json:"email" binding:"required,email"`
 	Password *string `json:"password" binding:"required,min=6"`
 	Age      *int    `json:"age" binding:"required,gte=8"`
-	Id       int     `json:"id"`
 }
 
 // LoginRequest schema

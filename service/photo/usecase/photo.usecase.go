@@ -7,7 +7,7 @@ import (
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	dtoPhoto "github.com/madmuzz05/go-final-project/service/photo/dto"
 	entityPhoto "github.com/madmuzz05/go-final-project/service/photo/entity"
-	"github.com/madmuzz05/go-final-project/service/user/dto"
+	entityUser "github.com/madmuzz05/go-final-project/service/user/entity"
 )
 
 func (u *PhotoUsecase) GetOne(ctx context.Context, id int) (res dtoPhoto.PhotoResponse, err sysresponse.IError) {
@@ -28,9 +28,8 @@ func (u *PhotoUsecase) GetOne(ctx context.Context, id int) (res dtoPhoto.PhotoRe
 		err = errModel
 		return
 	}
-	var reqUser = dto.UserRequest{
-		Id: int(model.UserId),
-	}
+	var reqUser = entityUser.User{}
+	reqUser.Id = model.UserId
 	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	copier.Copy(&res, &model)
 	if errUser == nil {
@@ -67,9 +66,8 @@ func (u *PhotoUsecase) GetAll(ctx context.Context) (res []dtoPhoto.PhotoResponse
 		var tempRes dtoPhoto.PhotoResponse
 		copier.Copy(&tempRes, &v)
 
-		var reqUser = dto.UserRequest{
-			Id: int(v.UserId),
-		}
+		var reqUser = entityUser.User{}
+		reqUser.Id = v.UserId
 		user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 		if errUser == nil {
 			tempRes.User = &user
@@ -97,8 +95,8 @@ func (u *PhotoUsecase) CreatePhoto(ctx context.Context, req entityPhoto.Photo) (
 		}
 		u.GormDB.CommitTransaction()
 	}()
-	var reqUser = dto.UserRequest{}
-	reqUser.Id = int(req.UserId)
+	var reqUser = entityUser.User{}
+	reqUser.Id = req.UserId
 
 	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	if errUser != nil {
@@ -134,9 +132,8 @@ func (u *PhotoUsecase) UpdatePhoto(ctx context.Context, req entityPhoto.Photo, i
 		err = errModel
 		return
 	}
-	var reqUser = dto.UserRequest{
-		Id: int(model.UserId),
-	}
+	var reqUser = entityUser.User{}
+	reqUser.Id = model.UserId
 	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	copier.Copy(&res, &model)
 	if errUser == nil {

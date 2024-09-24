@@ -7,7 +7,7 @@ import (
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	dtoComment "github.com/madmuzz05/go-final-project/service/comment/dto"
 	entityComment "github.com/madmuzz05/go-final-project/service/comment/entity"
-	"github.com/madmuzz05/go-final-project/service/user/dto"
+	entityUser "github.com/madmuzz05/go-final-project/service/user/entity"
 )
 
 func (u *CommentUsecase) GetOne(ctx context.Context, id int) (res dtoComment.CommentResponse, err sysresponse.IError) {
@@ -29,9 +29,8 @@ func (u *CommentUsecase) GetOne(ctx context.Context, id int) (res dtoComment.Com
 		return
 	}
 	copier.Copy(&res, &model)
-	var reqUser = dto.UserRequest{
-		Id: int(model.UserId),
-	}
+	var reqUser = entityUser.User{}
+	reqUser.Id = model.UserId
 	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	if errUser == nil {
 		res.User = &user
@@ -66,9 +65,8 @@ func (u *CommentUsecase) GetAll(ctx context.Context) (res []dtoComment.CommentRe
 		var tempRes dtoComment.CommentResponse
 		copier.Copy(&tempRes, &v)
 
-		var reqUser = dto.UserRequest{
-			Id: int(v.UserId),
-		}
+		var reqUser = entityUser.User{}
+		reqUser.Id = v.UserId
 		user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 		if errUser == nil {
 			tempRes.User = &user
@@ -97,8 +95,8 @@ func (u *CommentUsecase) CreateComment(ctx context.Context, req entityComment.Co
 		u.GormDB.CommitTransaction()
 	}()
 
-	var reqUser = dto.UserRequest{}
-	reqUser.Id = int(req.UserId)
+	var reqUser = entityUser.User{}
+	reqUser.Id = req.UserId
 
 	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	if errUser != nil {
@@ -143,8 +141,8 @@ func (u *CommentUsecase) UpdateComment(ctx context.Context, req entityComment.Co
 	}
 
 	copier.Copy(&res, &model)
-	var reqUser = dto.UserRequest{}
-	reqUser.Id = int(model.UserId)
+	var reqUser = entityUser.User{}
+	reqUser.Id = req.UserId
 
 	user, errUser := u.UserRepository.GetDataUser(ctx, reqUser)
 	if errUser == nil {

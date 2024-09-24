@@ -26,5 +26,5 @@ func InitUserUsecase(userRepository userRepo.IUserRepository, gormDb *postgres.G
 type IUserUsecase interface {
 	Register(ctx context.Context, req dto.UserRequest) (res entityUser.User, err sysresponse.IError)
 	Login(ctx context.Context, req dto.LoginRequest) (res dto.LoginResponse, err sysresponse.IError)
-	GetDataUser(ctx context.Context, req dto.UserRequest) (res entityUser.User, err sysresponse.IError)
+	GetDataUser(ctx context.Context, req entityUser.User) (res entityUser.User, err sysresponse.IError)
 }

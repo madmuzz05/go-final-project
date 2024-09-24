@@ -25,7 +25,7 @@ func (u *UserUsecase) Register(ctx context.Context, req dto.UserRequest) (res en
 		}
 		u.GormDB.CommitTransaction()
 	}()
-	var emailReq = dto.UserRequest{
+	var emailReq = entityUser.User{
 		Email: req.Email,
 	}
 	_, err = u.UserRepository.GetDataUser(ctx, emailReq)
@@ -36,7 +36,7 @@ func (u *UserUsecase) Register(ctx context.Context, req dto.UserRequest) (res en
 		return
 	}
 
-	var usernameReq = dto.UserRequest{
+	var usernameReq = entityUser.User{
 		Username: req.Username,
 	}
 	_, err = u.UserRepository.GetDataUser(ctx, usernameReq)
@@ -66,7 +66,7 @@ func (u *UserUsecase) Login(ctx context.Context, req dto.LoginRequest) (res dto.
 		}
 		u.GormDB.CommitTransaction()
 	}()
-	var userReq = dto.UserRequest{
+	var userReq = entityUser.User{
 		Username: &req.Username,
 	}
 	user, userErr := u.UserRepository.GetDataUser(ctx, userReq)
@@ -79,7 +79,7 @@ func (u *UserUsecase) Login(ctx context.Context, req dto.LoginRequest) (res dto.
 		err = sysresponse.GetErrorMessage(nil, http.StatusNotFound, "Wrong Password")
 		return
 	}
-	token, expiredAt := auth.GenerateToken(user.Id, user.Username)
+	token, expiredAt := auth.GenerateToken(user.Id, *user.Username)
 
 	copier.Copy(&res, &user)
 	res.Token.Token = token
@@ -88,7 +88,7 @@ func (u *UserUsecase) Login(ctx context.Context, req dto.LoginRequest) (res dto.
 
 }
 
-func (u *UserUsecase) GetDataUser(ctx context.Context, req dto.UserRequest) (res entityUser.User, err sysresponse.IError) {
+func (u *UserUsecase) GetDataUser(ctx context.Context, req entityUser.User) (res entityUser.User, err sysresponse.IError) {
 	u.GormDB.BeginTransaction()
 	defer func() {
 		if r := recover(); r != nil {

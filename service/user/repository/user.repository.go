@@ -12,7 +12,7 @@ import (
 	userEntity "github.com/madmuzz05/go-final-project/service/user/entity"
 )
 
-func (r UserRepository) GetDataUser(ctx context.Context, req userDto.UserRequest) (res userEntity.User, err sysresponse.IError) {
+func (r UserRepository) GetDataUser(ctx context.Context, req userEntity.User) (res userEntity.User, err sysresponse.IError) {
 	db := r.gormDb.GetDB().WithContext(ctx)
 	var condition []string
 	sql := `SELECT * FROM public.user `

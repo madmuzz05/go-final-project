@@ -21,5 +21,5 @@ func InitUserRepository(gormDb *postgres.GormDB) IUserRepository {
 
 type IUserRepository interface {
 	Register(ctx context.Context, req userDto.UserRequest) (res userEntity.User, err sysresponse.IError)
-	GetDataUser(ctx context.Context, req userDto.UserRequest) (res userEntity.User, err sysresponse.IError)
+	GetDataUser(ctx context.Context, req userEntity.User) (res userEntity.User, err sysresponse.IError)
 }
