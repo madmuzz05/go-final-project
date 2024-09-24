@@ -23,7 +23,7 @@ type ICommentRepository interface {
 	GetAll(ctx context.Context) (res []entityComment.Comment, err sysresponse.IError)
 	GetOne(ctx context.Context, id int) (res entityComment.Comment, err sysresponse.IError)
 	GetCommentByPhotoId(ctx context.Context, id int) (res []dtoComment.CommentPhotoResponse, err sysresponse.IError)
-	CreateComment(ctx context.Context, req entityComment.Comment) (res entityComment.Comment, err sysresponse.IError)
-	UpdateComment(ctx context.Context, req entityComment.Comment, id int) (res entityComment.Comment, err sysresponse.IError)
+	CreateComment(ctx context.Context, req dtoComment.CommentRequest) (res entityComment.Comment, err sysresponse.IError)
+	UpdateComment(ctx context.Context, req dtoComment.CommentRequest, id int) (res entityComment.Comment, err sysresponse.IError)
 	DeleteComment(ctx context.Context, id int) (err sysresponse.IError)
 }

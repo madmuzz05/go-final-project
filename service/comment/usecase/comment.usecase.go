@@ -6,7 +6,6 @@ import (
 	"github.com/jinzhu/copier"
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	dtoComment "github.com/madmuzz05/go-final-project/service/comment/dto"
-	entityComment "github.com/madmuzz05/go-final-project/service/comment/entity"
 	entityUser "github.com/madmuzz05/go-final-project/service/user/entity"
 )
 
@@ -81,7 +80,7 @@ func (u *CommentUsecase) GetAll(ctx context.Context) (res []dtoComment.CommentRe
 	return
 }
 
-func (u *CommentUsecase) CreateComment(ctx context.Context, req entityComment.Comment) (res dtoComment.CommentResponse, err sysresponse.IError) {
+func (u *CommentUsecase) CreateComment(ctx context.Context, req dtoComment.CommentRequest) (res dtoComment.CommentResponse, err sysresponse.IError) {
 	u.GormDB.BeginTransaction()
 	defer func() {
 		if r := recover(); r != nil {
@@ -120,7 +119,7 @@ func (u *CommentUsecase) CreateComment(ctx context.Context, req entityComment.Co
 
 	return
 }
-func (u *CommentUsecase) UpdateComment(ctx context.Context, req entityComment.Comment, id int) (res dtoComment.CommentResponse, err sysresponse.IError) {
+func (u *CommentUsecase) UpdateComment(ctx context.Context, req dtoComment.CommentRequest, id int) (res dtoComment.CommentResponse, err sysresponse.IError) {
 	u.GormDB.BeginTransaction()
 	defer func() {
 		if r := recover(); r != nil {

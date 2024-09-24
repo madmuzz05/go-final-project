@@ -65,7 +65,7 @@ func (r CommentRepository) GetCommentByPhotoId(ctx context.Context, id int) (res
 	return
 }
 
-func (r CommentRepository) CreateComment(ctx context.Context, req entityComment.Comment) (res entityComment.Comment, err sysresponse.IError) {
+func (r CommentRepository) CreateComment(ctx context.Context, req dtoComment.CommentRequest) (res entityComment.Comment, err sysresponse.IError) {
 	db := r.gormDb.GetDB().WithContext(ctx)
 	model := db.Raw("INSERT INTO public.comment (created_at, updated_at, message, photo_id, user_id) VALUES (now(), now(),  ?, ?,?) RETURNING *",
 		req.Message, req.PhotoId, req.UserId).Scan(&res)
@@ -81,7 +81,7 @@ func (r CommentRepository) CreateComment(ctx context.Context, req entityComment.
 	return
 }
 
-func (r CommentRepository) UpdateComment(ctx context.Context, req entityComment.Comment, id int) (res entityComment.Comment, err sysresponse.IError) {
+func (r CommentRepository) UpdateComment(ctx context.Context, req dtoComment.CommentRequest, id int) (res entityComment.Comment, err sysresponse.IError) {
 	db := r.gormDb.GetDB().WithContext(ctx)
 	model := db.Raw("UPDATE public.comment SET updated_at = now(), message = ?, photo_id = ?, user_id = ? WHERE id = ? RETURNING *",
 		req.Message, req.PhotoId, req.UserId, id).Scan(&res)

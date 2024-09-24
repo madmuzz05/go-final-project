@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
+	dtoSosmed "github.com/madmuzz05/go-final-project/service/sosial_media/dto"
 	entitySosmed "github.com/madmuzz05/go-final-project/service/sosial_media/entity"
 )
 
@@ -38,7 +39,7 @@ func (r SosmedRepository) GetOne(ctx context.Context, id int) (res entitySosmed.
 	return
 }
 
-func (r SosmedRepository) CreateSocialMedia(ctx context.Context, req entitySosmed.SosialMedia) (res entitySosmed.SosialMedia, err sysresponse.IError) {
+func (r SosmedRepository) CreateSocialMedia(ctx context.Context, req dtoSosmed.SosmedRequest) (res entitySosmed.SosialMedia, err sysresponse.IError) {
 	db := r.gormDb.GetDB().WithContext(ctx)
 	sosmed := db.Raw("INSERT INTO public.sosialmedia (created_at, updated_at, name, sosial_media_url, user_id) VALUES (now(), now(), ?, ?, ?) RETURNING *",
 		req.Name, req.SosialMediaUrl, req.UserId).Scan(&res)
@@ -54,7 +55,7 @@ func (r SosmedRepository) CreateSocialMedia(ctx context.Context, req entitySosme
 	return
 }
 
-func (r SosmedRepository) UpdateSocialMedia(ctx context.Context, req entitySosmed.SosialMedia, id int) (res entitySosmed.SosialMedia, err sysresponse.IError) {
+func (r SosmedRepository) UpdateSocialMedia(ctx context.Context, req dtoSosmed.SosmedRequest, id int) (res entitySosmed.SosialMedia, err sysresponse.IError) {
 	db := r.gormDb.GetDB().WithContext(ctx)
 	sosmed := db.Raw("UPDATE public.sosialmedia SET updated_at = now(), name = ?, sosial_media_url = ?, user_id = ? WHERE id = ? RETURNING *",
 		req.Name, req.SosialMediaUrl, req.UserId, id).Scan(&res)

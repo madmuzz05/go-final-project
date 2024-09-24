@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	validation "github.com/madmuzz05/go-final-project/pkg/validate"
-	entityPhoto "github.com/madmuzz05/go-final-project/service/photo/entity"
+	dtoPhoto "github.com/madmuzz05/go-final-project/service/photo/dto"
 )
 
 // GetOne godoc
@@ -65,12 +65,12 @@ func (h PhotoHandler) GetAll(ctx *gin.Context) {
 // @Tags Photo
 // @Accept json
 // @Produce json
-// @Param json body entityPhoto.Photo true "body request"
+// @Param json body dtoPhoto.PhotoRequest true "body request"
 // @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoPhoto.PhotoResponse}
 // @Security BearerAuth
 // @Router /photo/createPhoto [post]
 func (h PhotoHandler) CreatePhoto(ctx *gin.Context) {
-	req := entityPhoto.Photo{}
+	req := dtoPhoto.PhotoRequest{}
 
 	if valErr := validation.ValidateRequest(ctx, &req); valErr != nil {
 		sysresponse.GetResponseJson(ctx, http.StatusBadRequest, valErr.GetMessage(), nil)
@@ -92,11 +92,11 @@ func (h PhotoHandler) CreatePhoto(ctx *gin.Context) {
 // @Tags Photo
 // @Accept json
 // @Produce json
-// @Param json body entityPhoto.Photo true "body request"
+// @Param json body dtoPhoto.PhotoRequest true "body request"
 // @Param id path int true "Photo ID"
 // @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoPhoto.PhotoResponse}
 // @Security BearerAuth
-// @Router /photo/updatePhoto/{id} [post]
+// @Router /photo/updatePhoto/{id} [put]
 func (h PhotoHandler) UpdatePhoto(ctx *gin.Context) {
 	id, paramErr := strconv.Atoi(ctx.Param("id"))
 	if paramErr != nil {
@@ -107,7 +107,7 @@ func (h PhotoHandler) UpdatePhoto(ctx *gin.Context) {
 		return
 	}
 
-	req := entityPhoto.Photo{}
+	req := dtoPhoto.PhotoRequest{}
 	if valErr := validation.ValidateRequest(ctx, &req); valErr != nil {
 		sysresponse.GetResponseJson(ctx, http.StatusBadRequest, valErr.GetMessage(), nil)
 		return
@@ -128,7 +128,7 @@ func (h PhotoHandler) UpdatePhoto(ctx *gin.Context) {
 // @Tags Photo
 // @Accept json
 // @Produce json
-// @Param json body entityPhoto.Photo true "body request"
+// @Param json body dtoPhoto.PhotoRequest true "body request"
 // @Param id path int true "Photo ID"
 // @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=nil}
 // @Security BearerAuth

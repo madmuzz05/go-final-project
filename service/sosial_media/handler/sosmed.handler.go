@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	validation "github.com/madmuzz05/go-final-project/pkg/validate"
-	entitySosmed "github.com/madmuzz05/go-final-project/service/sosial_media/entity"
+	dtoSosmed "github.com/madmuzz05/go-final-project/service/sosial_media/dto"
 )
 
 // GetOne godoc
@@ -65,12 +65,12 @@ func (h SosmedHandler) GetAll(ctx *gin.Context) {
 // @Tags Sosmed
 // @Accept json
 // @Produce json
-// @Param json body entitySosmed.SosialMedia true "body request"
+// @Param json body dtoSosmed.SosmedRequest true "body request"
 // @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoSosmed.SosmedResposnse}
 // @Security BearerAuth
 // @Router /sosmed/createSosialMedia [post]
 func (h SosmedHandler) CreateSosialMedia(ctx *gin.Context) {
-	req := entitySosmed.SosialMedia{}
+	req := dtoSosmed.SosmedRequest{}
 
 	if valErr := validation.ValidateRequest(ctx, &req); valErr != nil {
 		sysresponse.GetResponseJson(ctx, http.StatusBadRequest, valErr.GetMessage(), nil)
@@ -93,7 +93,7 @@ func (h SosmedHandler) CreateSosialMedia(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "Sosmed ID"
-// @Param json body entitySosmed.SosialMedia true "body request"
+// @Param json body dtoSosmed.SosmedRequest true "body request"
 // @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoSosmed.SosmedResposnse}
 // @Security BearerAuth
 // @Router /sosmed/updateSosialMedia/{id} [put]
@@ -107,7 +107,7 @@ func (h SosmedHandler) UpdateSosialMedia(ctx *gin.Context) {
 		return
 	}
 
-	req := entitySosmed.SosialMedia{}
+	req := dtoSosmed.SosmedRequest{}
 	if valErr := validation.ValidateRequest(ctx, &req); valErr != nil {
 		sysresponse.GetResponseJson(ctx, http.StatusBadRequest, valErr.GetMessage(), nil)
 		return

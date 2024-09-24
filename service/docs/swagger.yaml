@@ -35,8 +35,6 @@ definitions:
         type: integer
       email:
         type: string
-      id:
-        type: integer
       password:
         minLength: 6
         type: string
@@ -59,6 +57,19 @@ definitions:
       username:
         type: string
     type: object
+  dtoComment.CommentRequest:
+    properties:
+      message:
+        type: string
+      photo_id:
+        type: integer
+      user_id:
+        type: integer
+    required:
+    - message
+    - photo_id
+    - user_id
+    type: object
   dtoComment.CommentResponse:
     properties:
       created_at:
@@ -77,6 +88,22 @@ definitions:
         $ref: '#/definitions/entityUser.User'
       user_id:
         type: integer
+    type: object
+  dtoPhoto.PhotoRequest:
+    properties:
+      caption:
+        type: string
+      photo_url:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - caption
+    - photo_url
+    - title
+    - user_id
     type: object
   dtoPhoto.PhotoResponse:
     properties:
@@ -101,6 +128,19 @@ definitions:
       user_id:
         type: integer
     type: object
+  dtoSosmed.SosmedRequest:
+    properties:
+      name:
+        type: string
+      sosial_media_url:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - name
+    - sosial_media_url
+    - user_id
+    type: object
   dtoSosmed.SosmedResposnse:
     properties:
       created_at:
@@ -117,25 +157,6 @@ definitions:
         $ref: '#/definitions/entityUser.User'
       user_id:
         type: integer
-    type: object
-  entityComment.Comment:
-    properties:
-      created_at:
-        type: string
-      id:
-        type: integer
-      message:
-        type: string
-      photo_id:
-        type: integer
-      updated_at:
-        type: string
-      user_id:
-        type: integer
-    required:
-    - message
-    - photo_id
-    - user_id
     type: object
   entityPhoto.Photo:
     properties:
@@ -157,25 +178,6 @@ definitions:
     - caption
     - photo_url
     - title
-    - user_id
-    type: object
-  entitySosmed.SosialMedia:
-    properties:
-      created_at:
-        type: string
-      id:
-        type: integer
-      name:
-        type: string
-      sosial_media_url:
-        type: string
-      updated_at:
-        type: string
-      user_id:
-        type: integer
-    required:
-    - name
-    - sosial_media_url
     - user_id
     type: object
   entityUser.User:
@@ -233,7 +235,7 @@ paths:
         name: json
         required: true
         schema:
-          $ref: '#/definitions/entityComment.Comment'
+          $ref: '#/definitions/dtoComment.CommentRequest'
       produces:
       - application/json
       responses:
@@ -366,7 +368,7 @@ paths:
         name: json
         required: true
         schema:
-          $ref: '#/definitions/entityComment.Comment'
+          $ref: '#/definitions/dtoComment.CommentRequest'
       - description: Comment ID
         in: path
         name: id
@@ -406,7 +408,7 @@ paths:
         name: json
         required: true
         schema:
-          $ref: '#/definitions/entityPhoto.Photo'
+          $ref: '#/definitions/dtoPhoto.PhotoRequest'
       produces:
       - application/json
       responses:
@@ -441,7 +443,7 @@ paths:
         name: json
         required: true
         schema:
-          $ref: '#/definitions/entityPhoto.Photo'
+          $ref: '#/definitions/dtoPhoto.PhotoRequest'
       - description: Photo ID
         in: path
         name: id
@@ -535,7 +537,7 @@ paths:
       tags:
       - Photo
   /photo/updatePhoto/{id}:
-    post:
+    put:
       consumes:
       - application/json
       description: update photo
@@ -545,7 +547,7 @@ paths:
         name: json
         required: true
         schema:
-          $ref: '#/definitions/entityPhoto.Photo'
+          $ref: '#/definitions/dtoPhoto.PhotoRequest'
       - description: Photo ID
         in: path
         name: id
@@ -585,7 +587,7 @@ paths:
         name: json
         required: true
         schema:
-          $ref: '#/definitions/entitySosmed.SosialMedia'
+          $ref: '#/definitions/dtoSosmed.SosmedRequest'
       produces:
       - application/json
       responses:
@@ -689,7 +691,7 @@ paths:
         name: json
         required: true
         schema:
-          $ref: '#/definitions/entitySosmed.SosialMedia'
+          $ref: '#/definitions/dtoSosmed.SosmedRequest'
       produces:
       - application/json
       responses:

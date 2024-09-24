@@ -6,7 +6,6 @@ import (
 	"github.com/jinzhu/copier"
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	dtoPhoto "github.com/madmuzz05/go-final-project/service/photo/dto"
-	entityPhoto "github.com/madmuzz05/go-final-project/service/photo/entity"
 	entityUser "github.com/madmuzz05/go-final-project/service/user/entity"
 )
 
@@ -82,7 +81,7 @@ func (u *PhotoUsecase) GetAll(ctx context.Context) (res []dtoPhoto.PhotoResponse
 	return
 }
 
-func (u *PhotoUsecase) CreatePhoto(ctx context.Context, req entityPhoto.Photo) (res dtoPhoto.PhotoResponse, err sysresponse.IError) {
+func (u *PhotoUsecase) CreatePhoto(ctx context.Context, req dtoPhoto.PhotoRequest) (res dtoPhoto.PhotoResponse, err sysresponse.IError) {
 	u.GormDB.BeginTransaction()
 	defer func() {
 		if r := recover(); r != nil {
@@ -114,7 +113,7 @@ func (u *PhotoUsecase) CreatePhoto(ctx context.Context, req entityPhoto.Photo) (
 	res.User = &user
 	return
 }
-func (u *PhotoUsecase) UpdatePhoto(ctx context.Context, req entityPhoto.Photo, id int) (res dtoPhoto.PhotoResponse, err sysresponse.IError) {
+func (u *PhotoUsecase) UpdatePhoto(ctx context.Context, req dtoPhoto.PhotoRequest, id int) (res dtoPhoto.PhotoResponse, err sysresponse.IError) {
 	u.GormDB.BeginTransaction()
 	defer func() {
 		if r := recover(); r != nil {

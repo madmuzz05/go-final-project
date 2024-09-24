@@ -7,7 +7,6 @@ import (
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	repositoryComment "github.com/madmuzz05/go-final-project/service/comment/repository"
 	dtoPhoto "github.com/madmuzz05/go-final-project/service/photo/dto"
-	entityPhoto "github.com/madmuzz05/go-final-project/service/photo/entity"
 	repositoryPhoto "github.com/madmuzz05/go-final-project/service/photo/repository"
 	repositoryUser "github.com/madmuzz05/go-final-project/service/user/repository"
 )
@@ -31,7 +30,7 @@ func InitPhotoUsecase(photoRepository repositoryPhoto.IPhotoRepository, userRepo
 type IPhotoUsecase interface {
 	GetOne(ctx context.Context, id int) (res dtoPhoto.PhotoResponse, err sysresponse.IError)
 	GetAll(ctx context.Context) (res []dtoPhoto.PhotoResponse, err sysresponse.IError)
-	CreatePhoto(ctx context.Context, req entityPhoto.Photo) (res dtoPhoto.PhotoResponse, err sysresponse.IError)
-	UpdatePhoto(ctx context.Context, req entityPhoto.Photo, id int) (res dtoPhoto.PhotoResponse, err sysresponse.IError)
+	CreatePhoto(ctx context.Context, req dtoPhoto.PhotoRequest) (res dtoPhoto.PhotoResponse, err sysresponse.IError)
+	UpdatePhoto(ctx context.Context, req dtoPhoto.PhotoRequest, id int) (res dtoPhoto.PhotoResponse, err sysresponse.IError)
 	DeletePhoto(ctx context.Context, id int) (err sysresponse.IError)
 }

@@ -6,7 +6,6 @@ import (
 	"github.com/jinzhu/copier"
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	dtoSosmed "github.com/madmuzz05/go-final-project/service/sosial_media/dto"
-	entitySosmed "github.com/madmuzz05/go-final-project/service/sosial_media/entity"
 	entityUser "github.com/madmuzz05/go-final-project/service/user/entity"
 )
 
@@ -73,7 +72,7 @@ func (u *SosmedUsecase) GetAll(ctx context.Context) (res []dtoSosmed.SosmedRespo
 	return
 }
 
-func (u *SosmedUsecase) CreateSocialMedia(ctx context.Context, req entitySosmed.SosialMedia) (res dtoSosmed.SosmedResposnse, err sysresponse.IError) {
+func (u *SosmedUsecase) CreateSocialMedia(ctx context.Context, req dtoSosmed.SosmedRequest) (res dtoSosmed.SosmedResposnse, err sysresponse.IError) {
 	u.GormDB.BeginTransaction()
 	defer func() {
 		if r := recover(); r != nil {
@@ -102,7 +101,7 @@ func (u *SosmedUsecase) CreateSocialMedia(ctx context.Context, req entitySosmed.
 	res.User = &user
 	return
 }
-func (u *SosmedUsecase) UpdateSocialMedia(ctx context.Context, req entitySosmed.SosialMedia, id int) (res dtoSosmed.SosmedResposnse, err sysresponse.IError) {
+func (u *SosmedUsecase) UpdateSocialMedia(ctx context.Context, req dtoSosmed.SosmedRequest, id int) (res dtoSosmed.SosmedResposnse, err sysresponse.IError) {
 	u.GormDB.BeginTransaction()
 	defer func() {
 		if r := recover(); r != nil {

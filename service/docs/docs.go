@@ -45,7 +45,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entityComment.Comment"
+                            "$ref": "#/definitions/dtoComment.CommentRequest"
                         }
                     }
                 ],
@@ -273,7 +273,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entityComment.Comment"
+                            "$ref": "#/definitions/dtoComment.CommentRequest"
                         }
                     },
                     {
@@ -340,7 +340,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entityPhoto.Photo"
+                            "$ref": "#/definitions/dtoPhoto.PhotoRequest"
                         }
                     }
                 ],
@@ -400,7 +400,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entityPhoto.Photo"
+                            "$ref": "#/definitions/dtoPhoto.PhotoRequest"
                         }
                     },
                     {
@@ -553,7 +553,7 @@ const docTemplate = `{
             }
         },
         "/photo/updatePhoto/{id}": {
-            "post": {
+            "put": {
                 "security": [
                     {
                         "BearerAuth": []
@@ -577,7 +577,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entityPhoto.Photo"
+                            "$ref": "#/definitions/dtoPhoto.PhotoRequest"
                         }
                     },
                     {
@@ -644,7 +644,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entitySosmed.SosialMedia"
+                            "$ref": "#/definitions/dtoSosmed.SosmedRequest"
                         }
                     }
                 ],
@@ -821,7 +821,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entitySosmed.SosialMedia"
+                            "$ref": "#/definitions/dtoSosmed.SosmedRequest"
                         }
                     }
                 ],
@@ -1086,9 +1086,6 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "integer"
-                },
                 "password": {
                     "type": "string",
                     "minLength": 6
@@ -1115,6 +1112,25 @@ const docTemplate = `{
                 }
             }
         },
+        "dtoComment.CommentRequest": {
+            "type": "object",
+            "required": [
+                "message",
+                "photo_id",
+                "user_id"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "photo_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "dtoComment.CommentResponse": {
             "type": "object",
             "properties": {
@@ -1138,6 +1154,29 @@ const docTemplate = `{
                 },
                 "user": {
                     "$ref": "#/definitions/entityUser.User"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dtoPhoto.PhotoRequest": {
+            "type": "object",
+            "required": [
+                "caption",
+                "photo_url",
+                "title",
+                "user_id"
+            ],
+            "properties": {
+                "caption": {
+                    "type": "string"
+                },
+                "photo_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
                 },
                 "user_id": {
                     "type": "integer"
@@ -1179,6 +1218,25 @@ const docTemplate = `{
                 }
             }
         },
+        "dtoSosmed.SosmedRequest": {
+            "type": "object",
+            "required": [
+                "name",
+                "sosial_media_url",
+                "user_id"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "sosial_media_url": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "dtoSosmed.SosmedResposnse": {
             "type": "object",
             "properties": {
@@ -1199,34 +1257,6 @@ const docTemplate = `{
                 },
                 "user": {
                     "$ref": "#/definitions/entityUser.User"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "entityComment.Comment": {
-            "type": "object",
-            "required": [
-                "message",
-                "photo_id",
-                "user_id"
-            ],
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "photo_id": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
                 },
                 "user_id": {
                     "type": "integer"
@@ -1255,34 +1285,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "title": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "entitySosmed.SosialMedia": {
-            "type": "object",
-            "required": [
-                "name",
-                "sosial_media_url",
-                "user_id"
-            ],
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "sosial_media_url": {
                     "type": "string"
                 },
                 "updated_at": {

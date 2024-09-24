@@ -5,6 +5,7 @@ import (
 
 	"github.com/madmuzz05/go-final-project/internal/database/gorm/postgres"
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
+	dtoPhoto "github.com/madmuzz05/go-final-project/service/photo/dto"
 	entityPhoto "github.com/madmuzz05/go-final-project/service/photo/entity"
 )
 
@@ -21,7 +22,7 @@ func InitPhotoRepository(gormDb *postgres.GormDB) IPhotoRepository {
 type IPhotoRepository interface {
 	GetAll(ctx context.Context) (res []entityPhoto.Photo, err sysresponse.IError)
 	GetOne(ctx context.Context, id int) (res entityPhoto.Photo, err sysresponse.IError)
-	CreatePhoto(ctx context.Context, req entityPhoto.Photo) (res entityPhoto.Photo, err sysresponse.IError)
-	UpdatePhoto(ctx context.Context, req entityPhoto.Photo, id int) (res entityPhoto.Photo, err sysresponse.IError)
+	CreatePhoto(ctx context.Context, req dtoPhoto.PhotoRequest) (res entityPhoto.Photo, err sysresponse.IError)
+	UpdatePhoto(ctx context.Context, req dtoPhoto.PhotoRequest, id int) (res entityPhoto.Photo, err sysresponse.IError)
 	DeletePhoto(ctx context.Context, id int) (err sysresponse.IError)
 }

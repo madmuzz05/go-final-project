@@ -6,7 +6,6 @@ import (
 	"github.com/madmuzz05/go-final-project/internal/database/gorm/postgres"
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	dtoComment "github.com/madmuzz05/go-final-project/service/comment/dto"
-	entityComment "github.com/madmuzz05/go-final-project/service/comment/entity"
 	repositoryComment "github.com/madmuzz05/go-final-project/service/comment/repository"
 	repositoryPhoto "github.com/madmuzz05/go-final-project/service/photo/repository"
 	repositoryUser "github.com/madmuzz05/go-final-project/service/user/repository"
@@ -35,7 +34,7 @@ func InitCommentUsecase(
 type ICommentUsecase interface {
 	GetOne(ctx context.Context, id int) (res dtoComment.CommentResponse, err sysresponse.IError)
 	GetAll(ctx context.Context) (res []dtoComment.CommentResponse, err sysresponse.IError)
-	CreateComment(ctx context.Context, req entityComment.Comment) (res dtoComment.CommentResponse, err sysresponse.IError)
-	UpdateComment(ctx context.Context, req entityComment.Comment, id int) (res dtoComment.CommentResponse, err sysresponse.IError)
+	CreateComment(ctx context.Context, req dtoComment.CommentRequest) (res dtoComment.CommentResponse, err sysresponse.IError)
+	UpdateComment(ctx context.Context, req dtoComment.CommentRequest, id int) (res dtoComment.CommentResponse, err sysresponse.IError)
 	DeleteComment(ctx context.Context, id int) (err sysresponse.IError)
 }

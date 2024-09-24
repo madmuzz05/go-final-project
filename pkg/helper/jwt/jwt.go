@@ -19,7 +19,7 @@ type Claims struct {
 var secretKey = config.AppConfig.JwtSecret
 
 func GenerateToken(id uint, username string) (string, string) {
-	expirationTime := time.Now().Add(90 * time.Minute)
+	expirationTime := time.Now().Add(6 * time.Hour)
 
 	// Create the JWT claims, which includes the username and expiry time.
 	claims := &Claims{

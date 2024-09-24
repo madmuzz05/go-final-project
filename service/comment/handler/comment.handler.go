@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	sysresponse "github.com/madmuzz05/go-final-project/pkg/helper/sys_response"
 	validation "github.com/madmuzz05/go-final-project/pkg/validate"
-	entityComment "github.com/madmuzz05/go-final-project/service/comment/entity"
+	dtoComment "github.com/madmuzz05/go-final-project/service/comment/dto"
 )
 
 // GetOne godoc
@@ -65,12 +65,12 @@ func (h CommentHandler) GetAll(ctx *gin.Context) {
 // @Tags Comment
 // @Accept json
 // @Produce json
-// @Param json body entityComment.Comment true "body request"
+// @Param json body dtoComment.CommentRequest true "body request"
 // @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoComment.CommentResponse}
 // @Security BearerAuth
 // @Router /comment/createComment [post]
 func (h CommentHandler) CreateComment(ctx *gin.Context) {
-	req := entityComment.Comment{}
+	req := dtoComment.CommentRequest{}
 
 	if valErr := validation.ValidateRequest(ctx, &req); valErr != nil {
 		sysresponse.GetResponseJson(ctx, http.StatusBadRequest, valErr.GetMessage(), nil)
@@ -92,7 +92,7 @@ func (h CommentHandler) CreateComment(ctx *gin.Context) {
 // @Tags Comment
 // @Accept json
 // @Produce json
-// @Param json body entityComment.Comment true "body request"
+// @Param json body dtoComment.CommentRequest true "body request"
 // @Param id path int true "Comment ID"
 // @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=dtoComment.CommentResponse}
 // @Security BearerAuth
@@ -107,7 +107,7 @@ func (h CommentHandler) UpdateComment(ctx *gin.Context) {
 		return
 	}
 
-	req := entityComment.Comment{}
+	req := dtoComment.CommentRequest{}
 	if valErr := validation.ValidateRequest(ctx, &req); valErr != nil {
 		sysresponse.GetResponseJson(ctx, http.StatusBadRequest, valErr.GetMessage(), nil)
 		return
