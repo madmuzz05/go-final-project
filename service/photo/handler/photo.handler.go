@@ -128,7 +128,6 @@ func (h PhotoHandler) UpdatePhoto(ctx *gin.Context) {
 // @Tags Photo
 // @Accept json
 // @Produce json
-// @Param json body dtoPhoto.PhotoRequest true "body request"
 // @Param id path int true "Photo ID"
 // @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=nil}
 // @Security BearerAuth

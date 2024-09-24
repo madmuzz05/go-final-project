@@ -395,15 +395,6 @@ const docTemplate = `{
                 "summary": "delete photo",
                 "parameters": [
                     {
-                        "description": "body request",
-                        "name": "json",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dtoPhoto.PhotoRequest"
-                        }
-                    },
-                    {
                         "type": "integer",
                         "description": "Photo ID",
                         "name": "id",
@@ -679,6 +670,64 @@ const docTemplate = `{
                 }
             }
         },
+        "/sosmed/deleteSosialMedia/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "delete sosmed",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sosmed"
+                ],
+                "summary": "delete sosmed",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Sosmed ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/sysresponse.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "integer"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/sosmed/getAll": {
             "get": {
                 "security": [
@@ -838,64 +887,6 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/dtoSosmed.SosmedResposnse"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "status": {
-                                            "type": "integer"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/sosmen/deleteSosialMedia/{id}": {
-            "delete": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "delete sosmed",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Sosmed"
-                ],
-                "summary": "delete sosmed",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Sosmed ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/sysresponse.Success"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object"
                                         },
                                         "message": {
                                             "type": "string"

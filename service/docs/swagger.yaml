@@ -438,12 +438,6 @@ paths:
       - application/json
       description: delete photo
       parameters:
-      - description: body request
-        in: body
-        name: json
-        required: true
-        schema:
-          $ref: '#/definitions/dtoPhoto.PhotoRequest'
       - description: Photo ID
         in: path
         name: id
@@ -611,6 +605,40 @@ paths:
       summary: Create sosmed
       tags:
       - Sosmed
+  /sosmed/deleteSosialMedia/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete sosmed
+      parameters:
+      - description: Sosmed ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/sysresponse.Success'
+            - properties:
+                data:
+                  type: object
+                message:
+                  type: string
+                status:
+                  type: integer
+                success:
+                  type: boolean
+              type: object
+      security:
+      - BearerAuth: []
+      summary: delete sosmed
+      tags:
+      - Sosmed
   /sosmed/getAll:
     get:
       consumes:
@@ -713,40 +741,6 @@ paths:
       security:
       - BearerAuth: []
       summary: Update sosmed
-      tags:
-      - Sosmed
-  /sosmen/deleteSosialMedia/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: delete sosmed
-      parameters:
-      - description: Sosmed ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/sysresponse.Success'
-            - properties:
-                data:
-                  type: object
-                message:
-                  type: string
-                status:
-                  type: integer
-                success:
-                  type: boolean
-              type: object
-      security:
-      - BearerAuth: []
-      summary: delete sosmed
       tags:
       - Sosmed
   /user/login:

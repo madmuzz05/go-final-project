@@ -131,7 +131,7 @@ func (h SosmedHandler) UpdateSosialMedia(ctx *gin.Context) {
 // @Param id path int true "Sosmed ID"
 // @Success 200 {object} sysresponse.Success{status=int,success=bool,message=string,data=nil}
 // @Security BearerAuth
-// @Router /sosmen/deleteSosialMedia/{id} [delete]
+// @Router /sosmed/deleteSosialMedia/{id} [delete]
 func (h SosmedHandler) DeleteSosialMedia(ctx *gin.Context) {
 	id, paramErr := strconv.Atoi(ctx.Param("id"))
 	if paramErr != nil {
